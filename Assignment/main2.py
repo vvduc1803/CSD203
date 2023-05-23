@@ -116,6 +116,16 @@ class LinkedList:
             print(" {:<5} | {:<15} | {:<25} | {:<6} ".format(current.bid, current.title, current.author, current.status))
             current = current.next
 
+    def save_file(self, file_name='library_info.txt'):
+        """Lưu thông tin của linked list vào file"""
+        with open(file_name, 'w') as file:
+            file.write("Bid|Title|Author|status (0 – available)\n")
+            current = self.head
+            while current:
+                file.write(f"{current.bid}|{current.title}|{current.author}|{current.status}\n")
+                current=current.next
+        return file_name
+
 class Library:
     def __init__(self):
         self.books = LinkedList()
@@ -130,17 +140,21 @@ class Library:
                 self.load_element(bid, title, author, status[0])
 
     def load_element(self, bid, title, author, status):
+        """Thêm sách từ file vào linked list thư viện"""
         self.books.load_file(bid, title, author, status)
 
     def add_book(self, bid, title, author, status=0):
+        """Thêm sách vào thư viện"""
         result = self.books.add_book_for_library(bid, title, author, status)
         return result
 
     def remove_book(self, bid):
+        """Xóa sách khỏi thư viện"""
         if not self.books.remove_book(bid):
             print(f"No book found with id: {bid}")
 
     def display_books(self):
+        """Hiển thị sách trong thư viện"""
         self.books.display_books()
 
     def borrow_book(self, bid, borrower):
@@ -173,6 +187,13 @@ class Library:
                 return
             current = current.next
         print(f"No borrowed book found with id: {bid}")
+
+    def save_file(self):
+        """Lưu thông tin từ linked list thư viện vào file"""
+        return self.books.save_file()
+
+
+
 
 def main():
     library = Library()
@@ -217,6 +238,8 @@ def main():
             library.return_book(bid)
 
         elif choice == "6":
+            file_name = library.save_file()
+            print(f"\nInformation stored in the file {file_name}")
             print("\nThank you for using the Library Management System.")
             break
 
