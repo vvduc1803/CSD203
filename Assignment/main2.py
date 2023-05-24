@@ -143,7 +143,7 @@ class Library:
         """Thêm sách từ file vào linked list thư viện"""
         self.books.load_file(bid, title, author, status)
 
-    def add_book(self, bid, title, author, status=0):
+    def add_book(self, bid, title, author, status='0'):
         """Thêm sách vào thư viện"""
         result = self.books.add_book_for_library(bid, title, author, status)
         return result
@@ -164,8 +164,8 @@ class Library:
         current = self.books.head
         while current:
             if current.bid == bid:
-                if current.status == 0:
-                    current.status = 1
+                if current.status == '0':
+                    current.status = '1'
                     self.borrowed_books.add_book_for_borrower(bid, borrower)
                     print(f"{current.title} has been borrowed by {borrower}.")
                 else:
@@ -181,7 +181,7 @@ class Library:
         current = self.books.head
         while current:
             if current.bid == bid:
-                current.status = 0
+                current.status = '0'
                 self.borrowed_books.remove_book(bid)
                 print(f"{current.title} has been returned.")
                 return
