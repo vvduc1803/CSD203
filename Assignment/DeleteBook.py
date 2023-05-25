@@ -1,1 +1,0 @@
-def DeleteBook(bid):

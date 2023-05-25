@@ -89,5 +89,25 @@ def stirling(n, k):
         return stirling(n - 1, k - 1) - (n-1) * stirling(n - 1, k)
 
 
+class TreeNode:
+    def __init__(self, val, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
 
+# Ex12:
+def find_size(root):
+    if root is None:
+        return 0
+    else:
+        return 1 + find_size(root.left) + find_size(root.right)
+
+# Ex13:
+def find_height(root):
+    if root is None:
+        return -1
+    else:
+        left_height = find_height(root.left)
+        right_height = find_height(root.right)
+        return max(left_height, right_height) + 1
 
