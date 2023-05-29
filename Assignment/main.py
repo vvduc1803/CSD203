@@ -26,7 +26,7 @@ class LinkedList:
     def __init__(self):
         self.head = None
 
-    def load_file(self, bid, title, author, status):
+    def load_element(self, bid, title, author, status):
         """
         Thêm các sách đã có trong file vào linked list bằng add first cho nhanh.
         """
@@ -116,6 +116,15 @@ class LinkedList:
             print(" {:<5} | {:<15} | {:<25} | {:<6} ".format(current.bid, current.title, current.author, current.status))
             current = current.next
 
+    def load_file(self, file_name='library_info.txt'):
+        """Thêm sách từ file vào linked list thư viện"""
+        with open(file_name, 'r') as file:
+            file = file.readlines()[1:]
+            file = [ele.split('|') for ele in file]
+            file.reverse()
+            for bid, title, author, status in file:
+                self.load_element(bid, title, author, status[0])
+
     def save_file(self, file_name='library_info.txt'):
         """Lưu thông tin của linked list vào file"""
         with open(file_name, 'w') as file:
@@ -129,19 +138,9 @@ class LinkedList:
 class Library:
     def __init__(self):
         self.books = LinkedList()
+        self.books.load_file()
         self.borrowed_books = LinkedList()
 
-        # Thêm các sách có sẵn trong file vào books nếu có
-        with open('library_info.txt', 'r') as file:
-            file = file.readlines()[1:]
-            file = [ele.split('|') for ele in file]
-            file.reverse()
-            for bid, title, author, status in file:
-                self.load_element(bid, title, author, status[0])
-
-    def load_element(self, bid, title, author, status):
-        """Thêm sách từ file vào linked list thư viện"""
-        self.books.load_file(bid, title, author, status)
 
     def add_book(self, bid, title, author, status='0'):
         """Thêm sách vào thư viện"""
