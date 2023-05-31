@@ -299,69 +299,6 @@ class CircularLinkedList:
 my_list = CircularLinkedList()
 
 # Add elements to the list
-my_list.addToHead(3)
-my_list.addToTail(5)
-my_list.addAfter(3, 4)
-my_list.addToTail(6)
-my_list.addToTail(7)
-my_list.addToTail(8)
-my_list.addToHead(1)
-my_list.addAfter(1, 2)
-my_list.addToTail(9)
-my_list.addToTail(10)
 
-my_list.traverse() 
-
-
-my_list.deleteFromTail()
-my_list.traverse()
-
-my_list.deleteFromHead()
-my_list.traverse()
-
-my_list.deleteAfter(7)
-my_list.deleteAfter(5)
-my_list.traverse()
-
-my_list.delete(2)
-my_list.traverse()
-my_list.delete(5)
-my_list.traverse()
-node = my_list.search(4)
-print(node.data) 
-
-# Count the number of elements in the list
-count = my_list.count()
-print(count) 
-
-# Delete an element at index 0
-my_list.deleteAtIndex(2)
-
-# Print the updated contents of the list
-my_list.traverse()
-
-
-he_list = CircularLinkedList()
-he_list.addToHead(1)
-he_list.addToHead(123)
-he_list.addToHead(96)
-he_list.addToHead(32)
-he_list.addToHead(57)
-he_list.addToHead(64)
-he_list.addToHead(33)
-he_list.addToHead(13)
-he_list.addToHead(17)
-he_list.addToHead(29)
-he_list.traverse()
-he_list.sort()
-he_list.traverse()
-print(he_list.toArray())
-print(he_list.max())
-print(he_list.min())
-print(he_list.sum())
-print(he_list.avg())
-print(he_list.sorted())
-he_list.insert(46)
-he_list.traverse()
 he_list.reverse()
 he_list.traverse()
