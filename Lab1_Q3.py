@@ -275,56 +275,6 @@ class DoublyLinkedList:
 # create a new doubly linked list
 dll = DoublyLinkedList()
 
-# add some nodes to the head and tail
-dll.addToHead(1)
-dll.addToTail(2)
-dll.addToHead(0)
-dll.addToTail(3)
-dll.addToTail(4)
-dll.addToTail(5)
-dll.addToTail(6)
-dll.addToTail(7)
-dll.addToTail(8)
-dll.addToTail(9)
-dll.addToTail(10)
-dll.addToTail(11)
-dll.addToTail(12)
-dll.traverse()
 
-dll.addAfter(4, 24)
-dll.traverse()  
-# delete some nodes
-dll.deleteFromHead()
-dll.traverse()
-dll.deleteFromTail()
-dll.traverse()
-dll.deleteAfter(7)
-dll.traverse()
-dll.delete(7)
-dll.traverse()
-# search for a node
-node = dll.search(2)
-print(node.data)
 
-count = dll.count()
-print(count)  
 
-dll.delAt(5)
-dll.traverse()
-# sort the list
-dll.sort()
-dll.traverse()  
-
-print(dll.toArray())
-
-print(dll.max())
-print(dll.min())
-print(dll.sum())
-print(dll.avg())
-print(dll.sorted())
-
-dll.insert(16)
-dll.traverse()
-
-dll.reverse()
-dll.traverse()  
