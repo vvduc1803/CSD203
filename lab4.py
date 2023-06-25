@@ -149,14 +149,14 @@ class BST:
         # Case 2: Node has one child
         elif node_to_delete.left is None:
             if parent_node is None:
-                return node_to_delete.right
+                self.root = node_to_delete.right
             elif parent_node.left == node_to_delete:
                 parent_node.left = node_to_delete.right
             else:
                 parent_node.right = node_to_delete.right
         elif node_to_delete.right is None:
             if parent_node is None:
-                return node_to_delete.left
+                self.root = node_to_delete.left
             elif parent_node.left == node_to_delete:
                 parent_node.left = node_to_delete.left
             else:

@@ -1,13 +1,3 @@
-class Vertex:
-    def __init__(self, value):
-        self.value = value
-
-class Edge:
-    def __init__(self, vertex1, vertex2, value):
-        self.value = value
-        self.vertex1 = vertex1
-        self.vertex2 = vertex2
-
 class Graph:
     def __init__(self):
         self.adj_dict = {}
