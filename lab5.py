@@ -46,8 +46,6 @@ class Graph:
                 if self.a[i][j] == '1':
                     self.add_edge(self.label[i], self.label[j])
 
-
-
     def add_vertex(self, vertex):
         if vertex not in self.adj_dict:
             self.adj_dict[vertex] = set()
@@ -94,6 +92,32 @@ class Graph:
             visited = set()
             return self.dfs_recur(start, visited)
 
+    def assign_colors(self):
+        # initialize all vertices with -1 color (unassigned)
+        vertex_colors = [-1] * self.n
+
+        # iterate through all vertices
+        for i in range(self.n):
+            # find all adjacent vertices to the current vertex
+            adjacent_colors = set()
+            adjacent_vertices = self.adj_dict[self.label[i]]
+
+            # check colors assigned to adjacent vertices
+            for j in adjacent_vertices:
+                if vertex_colors[self.label.index(j)] != -1:
+                    adjacent_colors.add(vertex_colors[self.label.index(j)])
+
+            # assign the first available color (i.e. the lowest non-negative integer)
+            color = 0
+            while True:
+                if color not in adjacent_colors:
+                    break
+                color += 1
+
+            vertex_colors[i] = color
+
+        return vertex_colors
+
 
 class Wgraph:
     def __init__(self):
@@ -138,4 +162,49 @@ class Wgraph:
 
         return distances
 
+    def prim_jarnik_mst(self):
+        # Initialize the MST and the set of visited vertices
+        mst = []
+        visited = set()
+
+        # Choose an arbitrary starting vertex
+        start_vertex = next(iter(self.graph_dict))
+        visited.add(start_vertex)
+
+        # Add all edges connected to the starting vertex to a list
+        edges = [(weight, start_vertex, neighbor) for neighbor, weight in self.graph_dict[start_vertex].items()]
+
+        # Loop until all vertices have been visited
+        while edges:
+            # Get the edge with minimum weight from the list
+            min_edge = min(edges)
+            edges.remove(min_edge)
+
+            weight, vertex1, vertex2 = min_edge
+
+            # Check if adding this edge will create a cycle
+            if vertex2 not in visited:
+                visited.add(vertex2)
+                mst.append((vertex1, vertex2, weight))
+
+                # Add all edges connected to the new vertex to the list
+                for neighbor, weight in self.graph_dict[vertex2].items():
+                    if neighbor not in visited:
+                        edges.append((weight, vertex2, neighbor))
+
+        return mst
+
+g = {'A': {'D': 1, 'B': 2, 'C': 3},
+     'B': {'D': 2, 'C': 1, 'A': 2},
+     'C': {'D': 4, 'B': 1, 'A': 2},
+     'D': {'B': 2, 'C': 4, 'A': 1, 'F': 3},
+     'E': {'F': 5, 'G': 2},
+     'F': {'D': 3, 'E': 5},
+     'G': {'H': 1, 'I': 2, 'E': 2},
+     'H': {'G': 1},
+     'I': {'G': 2}}
+
+gr = Wgraph()
+gr.graph_dict = g
+print(gr.dijkstra('A'))
 

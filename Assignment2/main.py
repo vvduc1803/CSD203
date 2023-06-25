@@ -112,7 +112,7 @@ class Product_BST:
             queue.append(self.root)
             while len(queue) > 0:
                 current = queue.pop(0)
-                file.write(f"{current.p_code}|{current.p_name}|{current.quantity}|{current.price}\n")
+                file.write(f"{current.p_code}|{current.p_name}|{current.quantity}|{current.sale}|{current.price}\n")
                 if current.left:
                     queue.append(current.left)
                 if current.right:
