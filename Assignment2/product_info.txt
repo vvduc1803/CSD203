@@ -3,8 +3,7 @@ Pcode|Pname|Quantity|Sale|Price
 13|sdfadf|150|10.25
 11|sdfasf|150|10.25
 9|asdf|150|10.25
-10|asdsdf|1000|15.0
-12|sdfasdfasdf|13|1.2
+10|Orio|150|10.25
 8|asdf|150|10.25
 1|Coca|150|10.25
 5|adf|150|10.25

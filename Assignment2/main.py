@@ -368,6 +368,7 @@ class Order_List:
         """
         Display information about customers.
         """
+        self.sort()
         current = self.head
         if not current:
             print("Empty.")
@@ -408,18 +409,6 @@ class Order_List:
         else:
             new_node.next = self.head
             self.head = new_node
-
-    def display(self):
-        current = self.head
-        if not current:
-            print("Empty.")
-            return
-        header = " {:<5} | {:<10} | {:<15} ".format("P_code", "C_code", "Quantity")
-        print(header)
-        print("-"*len(header))
-        while current:
-            print(" {:<5} | {:<10} | {:<15} ".format(current.p_code, current.c_code, current.quantity))
-            current = current.next
 
     def sort(self):
         store_dict = {}
@@ -513,10 +502,32 @@ def menu():
                     print("\nInvalid choice. Please enter a number between 1 and 4.")
 
         elif choice == '2':
-            print('---------------------------------')
-            print('Query inventory data\n')
-            Products.inorder()
-            continue
+
+
+            while True:
+                print('\n---------------------------------')
+                print('Query inventory data\n')
+                print("1. View product table")
+                print("2. View customer table")
+                print("3. View order table")
+                print("4. Exit")
+
+                choice_2 = input("\nEnter your choice (1-4): ")
+                print()
+
+                if choice_2 == '1':
+                    Products.inorder()
+                    continue
+                elif choice_2 == '2':
+                    Customers.display()
+                    continue
+                elif choice_2 == '3':
+                    Order.display()
+                    continue
+                elif choice_2 == '4':
+                    break
+                else:
+                    print("\nInvalid choice. Please enter a number between 1 and 4.")
 
         elif choice == '3':
             file_name = 'product_info.txt'
