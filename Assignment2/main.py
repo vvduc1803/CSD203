@@ -37,7 +37,6 @@ class Product_BST:
         with open(file_name, 'r') as file:
             file = file.readlines()[1:]
             file = [ele.split('|') for ele in file]
-            file.reverse()
             for p_code, p_name, quantity, sale, price in file:
                 self.insert(p_code, p_name, int(quantity), float(price), int(sale))
 
@@ -314,7 +313,7 @@ class Customer_List:
             file.write("Ccode|Cname|Phone\n")
             current = self.head
             while current:
-                file.write(f"{current.c_code}|{current.c_name}|{current.phone}\n")
+                file.write(f"{current.c_code}|{current.c_name}|{current.phone}")
                 current=current.next
         return file_name
 
@@ -380,13 +379,13 @@ class Order_List:
             print(" {:<5} | {:<10} | {:<15} ".format(current.p_code, current.c_code, current.quantity))
             current = current.next
 
-    def save_file(self, file_name='customers_info.txt'):
+    def save_file(self, file_name='order_info.txt'):
         """Save information about customer in to file"""
         with open(file_name, 'w') as file:
             file.write("Pcode|Ccode|Quantity\n")
             current = self.head
             while current:
-                file.write(f"{current.p_code}|{current.c_code}|{current.quantity}\n")
+                file.write(f"{current.p_code}|{current.c_code}|{current.quantity}")
                 current=current.next
         return file_name
 
@@ -532,6 +531,8 @@ def menu():
         elif choice == '3':
             file_name = 'product_info.txt'
             Products.save(file_name)
+            Customers.save_file()
+            Order.save_file()
             print(f"\nInformation stored in the file {file_name}.")
             print("\nThank you for using the Sales and Inventory Management System.")
 

@@ -1,1 +1,7 @@
-Pcode|Cname|Quantity
+Pcode|Ccode|Quantity
+7|111|12
+5|124|12
+4|123|12
+2|13|12
+1|1sd|12
+11|101|12
