@@ -99,7 +99,6 @@ class Product_BST:
             if current_node.right:
                 queue.append(current_node.right)
 
-
     def save(self, file_name='product_info.txt'):
         with open(file_name, 'w') as file:
             file.write("Pcode|Pname|Quantity|Sale|Price\n")
@@ -108,6 +107,7 @@ class Product_BST:
                 return
 
             queue = []
+
             queue.append(self.root)
             while len(queue) > 0:
                 current = queue.pop(0)
