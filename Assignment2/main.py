@@ -99,23 +99,21 @@ class Product_BST:
             if current_node.right:
                 queue.append(current_node.right)
 
+    def visit_file(self, node):
+        with open('product_info.txt', 'a') as file:
+            file.write(f'{node.p_code}|{node.p_name}|{node.quantity}|{node.sale}|{node.price}\n')
+
+    def inorder_recur_for_save(self, node):
+        if node:
+            if node.left:
+                self.inorder_recur_for_save(node.left)
+            self.visit_file(node)
+            if node.right:
+                self.inorder_recur_for_save(node.right)
     def save(self, file_name='product_info.txt'):
-        with open(file_name, 'w') as file:
-            file.write("Pcode|Pname|Quantity|Sale|Price\n")
-
-            if self.isEmpty():
-                return
-
-            queue = []
-
-            queue.append(self.root)
-            while len(queue) > 0:
-                current = queue.pop(0)
-                file.write(f"{current.p_code}|{current.p_name}|{current.quantity}|{current.sale}|{current.price}\n")
-                if current.left:
-                    queue.append(current.left)
-                if current.right:
-                    queue.append(current.right)
+        with open(file_name, 'w') as f:
+            f.write("Pcode|Pname|Quantity|Sale|Price\n")
+        return self.inorder_recur_for_save(self.root)
 
     def breadth_and_delete(self):
         if self.isEmpty():
