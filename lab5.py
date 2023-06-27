@@ -92,6 +92,7 @@ class Graph:
             adjacent_colors = set()
             adjacent_vertices = self.adj_dict[self.label[i]]
 
+
             # check colors assigned to adjacent vertices
             for j in adjacent_vertices:
                 if vertex_colors[self.label.index(j)] != -1:
@@ -195,6 +196,8 @@ g = {'A': {'D': 1, 'B': 2, 'C': 3},
      'I': {'G': 2}}
 
 gr = Wgraph()
+gq= Graph()
 gr.graph_dict = g
-print(gr.dijkstra('A'))
+gq.build_graph()
+gq.assign_colors()
 

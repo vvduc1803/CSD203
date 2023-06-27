@@ -40,6 +40,8 @@ class Product_BST:
             for p_code, p_name, quantity, sale, price in file:
                 self.insert(p_code, p_name, int(quantity), float(price), int(sale))
 
+        return file_name
+
     def insert(self, p_code, p_name, quantity, price, sale=0):
         if self.isEmpty():
             self.root = Product_Node(p_code, p_name, quantity, sale, price)
@@ -281,14 +283,27 @@ class Customer_List:
             for c_code, c_name, phone in file:
                 self.load_element(c_code, c_name, phone)
 
+        return file_name
+
     def load_element(self, c_code, c_name, phone):
         new_node = Customer_Node(c_code, c_name, phone)
-        # Thêm sách
         if not self.head:
             self.head = new_node
+            return True
         else:
-            new_node.next = self.head
-            self.head = new_node
+            current = self.head
+
+            while current.next:
+
+                if current.c_code == c_code:
+                    return c_code
+                current = current.next
+
+            if current.c_code == c_code:
+                return c_code
+            else:
+                current.next = new_node
+                return True
 
     def display(self):
         """
@@ -317,7 +332,7 @@ class Customer_List:
 
     def search(self, c_code):
         if not self.head:
-            return 'Empty'
+            return None
         else:
             curr_node = self.head
             while curr_node:
@@ -325,7 +340,7 @@ class Customer_List:
                     return curr_node
                 else:
                     curr_node = curr_node.next
-            return 'Not found'
+            return False
 
     def delete(self, c_code):
         current = self.head
@@ -358,8 +373,12 @@ class Order_List:
         if not self.head:
             self.head = new_node
         else:
-            new_node.next = self.head
-            self.head = new_node
+            current = self.head
+
+            while current.next:
+                current = current.next
+
+            current.next = new_node
 
     def display(self):
         """
@@ -415,132 +434,214 @@ class Order_List:
             curr_node = curr_node.next
 
         self.head = None
-        # sort_list = list(store_dict.keys())
-        # sort_list.sort()
-        # store_dict = {i: store_dict[i] for i in sort_list}
 
         for key in sorted(store_dict):
             node = store_dict[key]
-            self.insert(node.p_code, node.c_code, node.quantity)
+            self.load_element(node.p_code, node.c_code, node.quantity)
 
-def menu():
-    Products = Product_BST()
-    Products.load_file()
 
-    Customers = Customer_List()
-    Customers.load_file()
+class menu_display():
+    def __init__(self):
+        self.Products = Product_BST()
 
-    Order = Order_List()
-    Order.load_file()
+        self.Customers = Customer_List()
 
-    while True:
-        print("\nSales and Inventory Management System")
-        print("1. Register product arrival")
-        print("2. Query inventory data")
-        print("3. Exit\n")
+        self.Order = Order_List()
 
-        choice = input("Enter your choice (1-3): ")
+        self.Order.load_file()
+    def main_menu(self):
+        while True:
+            print("\nSales and Inventory Management System\n")
+            print("1. Products")
+            print("2. Customers")
+            print("3. Order")
+            print("4. Exit\n")
 
-        if choice == '1':
-            print('---------------------------------')
-            print('Register product arrival')
+            choice = input("Enter your choice (1-4): ")
 
-            while True:
+            if choice == '1':
+                self.product_menu()
+            elif choice == '2':
+                self.customer_menu()
+            elif choice == '3':
+                self.order_menu()
+            elif choice == '4':
+                break
+            else:
+                print("\nInvalid choice. Please enter a number between 1 and 4.")
+    def product_menu(self):
+        while True:
+            print("\nProducts System\n")
+            print('1.Load data from file.')
+            print('2.Input & insert data.')
+            print('3.In-order traverse.')
+            print('4.Breadth-first traverse.')
+            print('5.In-order traverse to file.')
+            print('6.Search by pcode.')
+            print('7.Delete by pcode by copying.')
+            print('8.Simply balancing.')
+            print('9.Count number of products.')
+            print('10.Exit.\n')
 
-                print("\n1. Edit product details")
-                print("2. Add stock to the product")
-                print("3. Remove product that are out of stock")
-                print("4. Exit\n")
+            p_choice = input("Enter your choice (1-10): ")
 
-                choice_1 = input("Enter your choice (1-4): ")
+            if p_choice == '1':
+                file_name = self.Products.load_file()
+                print(f'Successfully load data from {file_name}')
 
-                if choice_1 == '1':
-                    input_p_code = input('Enter your product code: ')
-                    result = Products.search(input_p_code)
-                    if result == None:
-                        print('Empty tree.')
-                    elif result == False:
-                        print('\nNot found this product code.\n')
-                        continue
-                    else:
-                        new_name = input("Enter new product name : ")
-                        new_quantity = int(input("Enter quantity : "))
-                        new_price = float(input("Enter new price : "))
+            elif p_choice == '2':
+                new_p_code = input('Enter your product code: ')
+                new_name = input("Enter new product name : ")
+                new_quantity = int(input("Enter quantity : "))
+                new_price = float(input("Enter new price : "))
 
-                        Products.change(result, new_name, new_quantity, new_price)
+                self.Products.insert(new_p_code, new_name, new_quantity, new_price)
+                print('Finish!')
+
+            elif p_choice == '3':
+                self.Products.inorder()
+
+            elif p_choice == '4':
+                self.Products.breadth()
+
+            elif p_choice == '5':
+                self.Products.save()
+                print('Finish!')
+
+            elif p_choice == '6':
+                p_code = input('Enter p_code to search: ')
+                results = self.Products.search(p_code)
+
+                if results is None:
+                    print('Empty!')
+                elif results is False:
+                    print(f'Not found product with p_code: {p_code}.')
+                else:
+                    print(f'Information of product with p_code {results.p_code}:')
+                    print(f'Name: {results.p_name}')
+                    print(f'Quantity: {results.quantity}')
+                    print(f'Saled: {results.sale}')
+                    print(f'Price: {results.price}')
+
+            elif p_choice == '7':
+                dele_p_code = input('Enter delete p_code: ')
+                self.Products.dele(dele_p_code)
+                print('Finish!')
+
+            elif p_choice == '8':
+                self.Products.simply_balance()
+                print('Finish!')
+
+            elif p_choice == '9':
+                count = self.Products.count()
+                print(f'Number of products: {count}')
+
+            elif p_choice == '10':
+                print("\nThank you for using the Sales and Inventory Management System.")
+                break
+
+            else:
+                print("\nInvalid choice. Please enter a number between 1 and 10.")
+
+    def customer_menu(self):
+        while True:
+            print("\nCustomers System\n")
+            print('1.Load data from file.')
+            print('2.Input & add to the end.')
+            print('3.Display data.')
+            print('4.Save to file.')
+            print('5.Search by c_code.')
+            print('6.Delete by c_code.')
+            print('7.Exit.\n')
+
+            c_choice = input("Enter your choice (1-7): ")
+
+            if c_choice == '1':
+                file_name = self.Customers.load_file()
+                print(f'Successfully load data from {file_name}')
+
+            elif c_choice == '2':
+                new_c_code = input('Enter customer code: ')
+                new_c_name = input("Enter customer name : ")
+                new_phone = input("Enter phone : ")
+                while True:
+                    result = self.Customers.load_element(new_c_code, new_c_name, new_phone)
+                    if result is True:
                         print('Finish!')
+                        break
+                    else:
+                        print(f'Existed customer with code {new_c_code}')
+                        new_c_code = input('Please, enter other customer code: ')
 
-                        continue
+            elif c_choice == '3':
+                self.Customers.display()
 
-                elif choice_1 == '2':
-                    print('---------------------------------')
-                    print('Add stock to the product')
+            elif c_choice == '4':
+                self.Customers.save_file()
+                print('Finish!')
 
-                    p_code = input("Enter new product code : ")
-                    p_name = input("Enter new product name : ")
-                    quantity = int(input("Enter quantity         : "))
-                    price = float(input("Enter price           : "))
+            elif c_choice == '5':
+                search_c_code = input('Enter search c_code: ')
+                result = self.Customers.search(search_c_code)
 
-                    Products.insert(p_code, p_name, quantity, price)
-                    print('Finish!')
+                if result is None:
+                    print('Empty list.')
 
-                    continue
-
-                elif choice_1 == '3':
-                    Products.breadth_and_delete()
-                    print('Finish!')
-
-                    continue
-
-                elif choice_1 == '4':
-                    break
+                elif result is False:
+                    print(f'Not found customer with c_code {search_c_code}.')
 
                 else:
-                    print("\nInvalid choice. Please enter a number between 1 and 4.")
+                    print(f'Information of customer with c_code {search_c_code}:')
+                    print(f'Name: {result.name}')
+                    print(f'Phone: {result.phone}')
 
-        elif choice == '2':
-
-
-            while True:
-                print('\n---------------------------------')
-                print('Query inventory data\n')
-                print("1. View product table")
-                print("2. View customer table")
-                print("3. View order table")
-                print("4. Exit")
-
-                choice_2 = input("\nEnter your choice (1-4): ")
-                print()
-
-                if choice_2 == '1':
-                    Products.inorder()
-                    continue
-                elif choice_2 == '2':
-                    Customers.display()
-                    continue
-                elif choice_2 == '3':
-                    Order.display()
-                    continue
-                elif choice_2 == '4':
-                    break
+            elif c_choice == '6':
+                delete_c_code = input('Enter detele c_code: ')
+                result = self.Customers.delete(delete_c_code)
+                if result:
+                    print('Finish!')
                 else:
-                    print("\nInvalid choice. Please enter a number between 1 and 4.")
+                    print(f'Not found customer with c_code {delete_c_code}.')
 
-        elif choice == '3':
-            file_name = 'product_info.txt'
-            Products.save(file_name)
-            Customers.save_file()
-            Order.save_file()
-            print(f"\nInformation stored in the file {file_name}.")
-            print("\nThank you for using the Sales and Inventory Management System.")
+            elif c_choice == '7':
+                break
 
-            break
+            else:
+                print("\nInvalid choice. Please enter a number between 1 and 7.")
 
-        else:
-            print("\nInvalid choice. Please enter a number between 1 and 3.")
+    def order_menu(self):
+        while True:
+            print("\nCustomers System\n")
+            print('1.Input data.')
+            print('2.Display ordering data.')
+            print('3.Sort by pcode + ccode.')
+            print('4.Exit.\n')
+
+            c_choice = input("Enter your choice (1-4): ")
+
+            if c_choice == '1':
+                new_p_code = input('Enter product code: ')
+                new_c_code = input("Enter customer code: ")
+                new_quantity = int(input("Enter quantity: "))
+                while True:
+                    self.Order.load_element(new_p_code, new_c_code, new_quantity)
+
+            elif c_choice == '2':
+                self.Order.display()
+
+            elif c_choice == '3':
+                self.Order.sort()
+                print('Finish!')
+
+            elif c_choice == '4':
+                break
+
+            else:
+                print("\nInvalid choice. Please enter a number between 1 and 4.")
 
 def main():
-    menu()
+    display = menu_display()
+    display.main_menu()
 
 if __name__ == "__main__":
     main()
