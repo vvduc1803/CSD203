@@ -247,7 +247,7 @@ class Product_BST:
 
         # Constructs BST from nodes[]
         n = len(nodes_list)
-        return self.build_tree(nodes_list, 0, n - 1)
+        self.root = self.build_tree(nodes_list, 0, n - 1)
 
     def count(self):
         if self.isEmpty():
