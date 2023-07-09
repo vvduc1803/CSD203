@@ -158,9 +158,9 @@ class Product_BST:
         node_to_delete = self.root
 
         # Find the node to delete and its parent
-        while node_to_delete is not None and node_to_delete.data != p_code:
+        while node_to_delete is not None and node_to_delete.p_code != p_code:
             parent_node = node_to_delete
-            if p_code < node_to_delete.data:
+            if p_code < node_to_delete.p_code:
                 node_to_delete = node_to_delete.left
             else:
                 node_to_delete = node_to_delete.right
@@ -336,7 +336,7 @@ class Customer_List:
         else:
             curr_node = self.head
             while curr_node:
-                if c_code == curr_node.p_code:
+                if c_code == curr_node.c_code:
                     return curr_node
                 else:
                     curr_node = curr_node.next
@@ -403,7 +403,7 @@ class Order_List:
             current = self.head
             while current:
                 file.write(f"{current.p_code}|{current.c_code}|{current.quantity}")
-                current=current.next
+                current = current.next
         return file_name
 
     def search(self, c_code):
@@ -592,7 +592,7 @@ class menu_display():
 
                 else:
                     print(f'Information of customer with c_code {search_c_code}:')
-                    print(f'Name: {result.name}')
+                    print(f'Name: {result.c_name}')
                     print(f'Phone: {result.phone}')
 
             elif c_choice == '6':
@@ -623,8 +623,7 @@ class menu_display():
                 new_p_code = input('Enter product code: ')
                 new_c_code = input("Enter customer code: ")
                 new_quantity = int(input("Enter quantity: "))
-                while True:
-                    self.Order.load_element(new_p_code, new_c_code, new_quantity)
+                self.Order.load_element(new_p_code, new_c_code, new_quantity)
 
             elif c_choice == '2':
                 self.Order.display()
