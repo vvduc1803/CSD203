@@ -150,6 +150,35 @@ class Product_BST:
                     curr_node = curr_node.right
             return False
 
+    def dele_0(self, node_to_delete, parent_node):
+        if parent_node is None:
+            return None
+        elif parent_node.left == node_to_delete:
+            parent_node.left = None
+        else:
+            parent_node.right = None
+    def dele_1(self, node_to_delete, parent_node):
+        if node_to_delete.left is None:
+            if parent_node is None:
+                return node_to_delete.right
+            elif parent_node.left == node_to_delete:
+                parent_node.left = node_to_delete.right
+            else:
+                parent_node.right = node_to_delete.right
+
+        elif node_to_delete.right is None:
+            if parent_node is None:
+                return node_to_delete.left
+            elif parent_node.left == node_to_delete:
+                parent_node.left = node_to_delete.left
+            else:
+                parent_node.right = node_to_delete.left
+    def dele_2(self, node_to_delete):
+        min_node_val = self.min_for_small_tree(node_to_delete.right)
+        temp_val = min_node_val
+        self.dele(min_node_val)
+        node_to_delete.p_code = temp_val
+
     def dele(self, p_code):
         if self.isEmpty():
             return None
@@ -171,35 +200,15 @@ class Product_BST:
 
         # Case 1: Node has no children
         if node_to_delete.left is None and node_to_delete.right is None:
-            if parent_node is None:
-                return None
-            elif parent_node.left == node_to_delete:
-                parent_node.left = None
-            else:
-                parent_node.right = None
+            self.dele_0(node_to_delete, parent_node)
 
         # Case 2: Node has one child
-        elif node_to_delete.left is None:
-            if parent_node is None:
-                return node_to_delete.right
-            elif parent_node.left == node_to_delete:
-                parent_node.left = node_to_delete.right
-            else:
-                parent_node.right = node_to_delete.right
-        elif node_to_delete.right is None:
-            if parent_node is None:
-                return node_to_delete.left
-            elif parent_node.left == node_to_delete:
-                parent_node.left = node_to_delete.left
-            else:
-                parent_node.right = node_to_delete.left
+        elif node_to_delete.left is None or node_to_delete.right is None:
+            self.dele_1(node_to_delete, parent_node)
 
         # Case 3: Node has two children
         else:
-            min_node_val = self.min_for_small_tree(node_to_delete.right)
-            temp_val = min_node_val
-            self.dele(min_node_val)
-            node_to_delete.p_code = temp_val
+            self.dele_2(node_to_delete)
 
     def min_for_small_tree(self, node):
         if self.isEmpty():
